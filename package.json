@@ -1,0 +1,44 @@
+{   "name": "express-mongoose-resource"
+  , "description": "Express resourceful routing for Mongoose models"
+  , "version": "0.0.1"
+  , "homepage": "https://github.com/panta/express-mongoose-resource"
+  , "author": "Marco Pantaleoni <marco.pantaleoni@gmail.com>"
+  , "dependencies": {
+      "mongoose": "3.0.x"
+    , "express": "2.5.x"
+    , "express-resource": "0.2.x"
+  }
+  , "devDependencies": {
+      "coffee-script": ">= 1.3.3"
+    , "muffin": ">= 0.6.2"
+    , "glob": ">= 3.0.1"
+    , "mocha": ">= 1.4.2"
+    , "chai": ">= 1.2.0"
+  }
+  , "keywords": ["mongoose", "express", "resourceful", "rest", "crud", "express-resource"]
+  , "repository": {
+      "type": "git"
+    , "url": "git://github.com/panta/express-mongoose-resource.git"
+  }
+  , "bugs": {
+    "url" : "https://github.com/panta/express-mongoose-resource/issues"
+  }
+  , "licenses": [{ 
+      "type": "MIT", 
+      "url": "https://raw.github.com/panta/express-mongoose-resource/master/LICENSE"
+    }]
+  , "directories" : {
+      "lib" : "./lib"
+    , "test" : "./test"
+  }
+  , "scripts": {
+      "watch": "coffee -c -w  -o lib src"
+    , "prepublish": "cake build"
+    , "test": "NODE_ENV=test node_modules/.bin/mocha --compilers coffee:coffee-script --timeout 10000 -R spec test/*.coffee"
+  }
+  , "main": "lib/index.js"
+  , "engines": {
+      "node": ">= 0.6.0"
+    , "npm": ">= 1.0.0"
+  }
+}
