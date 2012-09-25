@@ -4,6 +4,8 @@ express-mongoose-resource provides resourceful routing for [mongoose][] models t
 
 The library uses and extends [express-resource][], remaining fully compatible with it.
 
+Note: actually we now use [express-resource-middleware][], which adds route middleware support, remaining fully backward compatible with the original.
+
 ## Install
 
 npm install express-mongoose-resource
@@ -106,6 +108,7 @@ See the LICENSE file for details.
 
 [mongoose]: http://mongoosejs.com
 [express-resource]: http://github.com/visionmedia/express-resource
+[express-resource-middleware]: https://npmjs.org/package/express-resource-middleware
 [CoffeeScript]: http://jashkenas.github.com/coffee-script/
 [nodejs]: http://nodejs.org/
 [expressjs]: http://expressjs.com

@@ -34,7 +34,7 @@
 # express-resource implementation.
 
 express = require('express')
-Resource = exports.Resource = require('express-resource')
+Resource = exports.Resource = require('express-resource-middleware')
 
 # Extend a source object with the properties of another object (shallow copy).
 extend = (dst, src, overwrite=true) ->
