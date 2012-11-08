@@ -264,7 +264,7 @@ class ModelController
       return next(err)  if err
       console.log("created #{@modelName} with id:#{instance.id}")
       if (req.body._format? and req.body._format == 'html') or (format == 'html')
-        return res.redirect @url_prefix + "/#{instance.id}"
+        return res.redirect @url_prefix + "/#{instance.id}" + ".html"
       else
         return res.send(@preprocess_instance(instance))
 
@@ -310,7 +310,7 @@ class ModelController
         return next(err)  if err
         console.log("updated #{@modelName} with id:#{id}")
         if req.body._format? and req.body._format == 'html'
-          return res.redirect @url_prefix + "/#{instance.id}"
+          return res.redirect @url_prefix + "/#{instance.id}" + ".html"
         else
           return res.send(@preprocess_instance(instance))
 
