@@ -171,7 +171,7 @@ class ModelController
 
   # -- template rendering support -----------------------------------
 
-  getTemplateContext: (extra) ->
+  getTemplateContext: (req, res, extra) ->
     context =
       model: @model
       schema: @schema
@@ -180,19 +180,28 @@ class ModelController
       base: @base
       url_prefix: @url_prefix
       resource_id: @resource.id
+    pivot = {}
+    if @opts.pivot?
+      @trace("we have a pivot model field: '#{@opts.pivot.modelField}' req field: '#{@opts.pivot.requestField}'")
+      @trace("req.#{@opts.pivot.requestField} = #{req[@opts.pivot.requestField]}")
+      if @opts.pivot.requestField of req
+        pivot.pivot = @opts.pivot.requestField
+        pivot.pivot_id = req[@opts.pivot.requestField].id
+        pivot[@opts.pivot.requestField] = @preprocess_instance(req[@opts.pivot.requestField])
+    defaults context, pivot
     return extend context, extra
 
-  getInstanceTemplateContext: (instance, extra) ->
+  getInstanceTemplateContext: (req, res, instance, extra) ->
     serialized = @preprocess_instance(instance)
-    context = @getTemplateContext
+    context = @getTemplateContext req, res,
       instance: instance
       json: JSON.stringify(serialized)
       object: serialized
     return extend context, extra
 
-  getSetTemplateContext: (instances, extra) ->
+  getSetTemplateContext: (req, res, instances, extra) ->
     serialized = @preprocess_instances(instances)
-    context = @getTemplateContext
+    context = @getTemplateContext req, res,
       instances: instances
       json: JSON.stringify(serialized)
       objects: serialized
@@ -230,7 +239,7 @@ class ModelController
     @get_conditions conditions, (err, instances) =>
       return next(err)  if err
       if format == 'html'
-        ctxt = @getSetTemplateContext instances,
+        ctxt = @getSetTemplateContext req, res, instances,
           format: format
           view: 'index'
         return @renderTemplate res, "index", ctxt
@@ -240,9 +249,10 @@ class ModelController
   _action_new: (req, res, next) ->
     format = req.format or @_default_format
     @traceAction(req, 'new', "#{@url_prefix}/new format:#{format}")
+
     instance = new @model
     if format == 'html'
-      ctxt = @getInstanceTemplateContext instance,
+      ctxt = @getInstanceTemplateContext req, res, instance,
         format: format
         view: 'new'
         mode: 'new'
@@ -275,7 +285,7 @@ class ModelController
     @get @getId(req), (err, instance) =>
       return next(err)  if err
       if format == 'html'
-        ctxt = @getInstanceTemplateContext instance,
+        ctxt = @getInstanceTemplateContext req, res, instance,
           format: format
           view: 'show'
         return @renderTemplate res, "show", ctxt
@@ -288,7 +298,7 @@ class ModelController
     @get @getId(req), (err, instance) =>
       return next(err)  if err
       if format == 'html'
-        ctxt = @getInstanceTemplateContext instance,
+        ctxt = @getInstanceTemplateContext req, res, instance,
           format: format
           view: 'edit'
           mode: 'edit'
