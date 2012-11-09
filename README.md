@@ -86,6 +86,8 @@ For the `Forum` example above, the templates would be:
 
 The context passed to the template contains the following keys:
 
+- `view`, the view name (`index`, `new`, `show`, `edit`)
+- `name`, the template name (`index`, `show`, `edit`) (by default, `edit` is used by `new` and `edit` views)
 - `model`, the mongoose model
 - `schema`, the mongoose schema
 - `modelName`, the mongoose model name
@@ -95,6 +97,8 @@ The context passed to the template contains the following keys:
 - `instances`, the mongoose result set (`index` action)
 - `objects`, an array of plain JavaScript objects corresponding to the mongoose result set (`index` action)
 - `json`, the JSON string representation of the model instance (`new`, `show` and `edit` actions) or of the result set  (`index` action)
+
+When using nested resources, the context also contains the `pivot` field value, name and id. In the example above, the context variable `pivot` would contain `forum`, `pivot_id` would contain the forum id, and `forum` would contain the serialized forum model.
 
 ## Bugs and pull requests
 
