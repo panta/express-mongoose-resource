@@ -1,6 +1,6 @@
 {   "name": "express-mongoose-resource"
   , "description": "Express resourceful routing for Mongoose models"
-  , "version": "0.0.3"
+  , "version": "0.0.4"
   , "homepage": "https://github.com/panta/express-mongoose-resource"
   , "author": "Marco Pantaleoni <marco.pantaleoni@gmail.com>"
   , "dependencies": {
