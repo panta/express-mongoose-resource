@@ -207,7 +207,7 @@ class ModelController
       objects: serialized
     return extend context, extra
 
-  renderTemplate: (res, name, context) ->
+  _renderTemplate: (res, name, context) ->
     t_name = @url_prefix
     if t_name[0] == '/'
       t_name = t_name[1..]
@@ -215,6 +215,16 @@ class ModelController
       t_name = t_name + '/'
     t_name += name
     return res.render t_name, context
+
+  renderTemplate: (res, name, data, context) ->
+    data.view ||= name
+    data.name = name
+    view = data.view
+    if @opts.render_cb?[view]?
+      @opts.render_cb[view].call @, data, context, (ctxt) =>
+        return @_renderTemplate res, name, ctxt
+    else
+      return @_renderTemplate res, name, context
 
   # -- default actions ----------------------------------------------
 
@@ -242,7 +252,7 @@ class ModelController
         ctxt = @getSetTemplateContext req, res, instances,
           format: format
           view: 'index'
-        return @renderTemplate res, "index", ctxt
+        return @renderTemplate res, "index", {instances: instances}, ctxt
       return res.send(@preprocess_instances(instances))
 
   # GET /NAME/new
@@ -262,7 +272,7 @@ class ModelController
         format: format
         view: 'new'
         mode: 'new'
-      return @renderTemplate res, "edit", ctxt
+      return @renderTemplate res, "edit", {view: 'new', instance: instance}, ctxt
     return res.send(@preprocess_instance(instance))
 
   # POST /NAME
@@ -300,8 +310,9 @@ class ModelController
         ctxt = @getInstanceTemplateContext req, res, instance,
           format: format
           view: 'show'
-        return @renderTemplate res, "show", ctxt
-      return res.send(@preprocess_instance(instance))
+        return @renderTemplate res, "show", {instance: instance}, ctxt
+      else
+        return res.send(@preprocess_instance(instance))
 
   # GET /NAME/:NAME/edit
   _action_edit: (req, res, next) ->
@@ -314,7 +325,7 @@ class ModelController
           format: format
           view: 'edit'
           mode: 'edit'
-        return @renderTemplate res, "edit", ctxt
+        return @renderTemplate res, "edit", {instance: instance}, ctxt
       res.send(@preprocess_instance(instance))
 
   # PUT /NAME/:NAME
