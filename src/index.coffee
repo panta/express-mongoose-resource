@@ -251,6 +251,12 @@ class ModelController
     @traceAction(req, 'new', "#{@url_prefix}/new format:#{format}")
 
     instance = new @model
+    if @opts.pivot?
+      @trace("we have a pivot model field: '#{@opts.pivot.modelField}' req field: '#{@opts.pivot.requestField}'")
+      @trace("req.#{@opts.pivot.requestField} = #{req[@opts.pivot.requestField]}")
+      if @opts.pivot.requestField of req
+        if (not @opts.pivot.requestField of instance) or (not instance[@opts.pivot.requestField])
+          instance[@opts.pivot.requestField] = req[@opts.pivot.requestField].id
     if format == 'html'
       ctxt = @getInstanceTemplateContext req, res, instance,
         format: format
@@ -270,6 +276,12 @@ class ModelController
     # instance = new @model(instanceValues)
     instance = new @model()
     @update_instance_from_body_values(req, instance)
+    if @opts.pivot?
+      @trace("we have a pivot model field: '#{@opts.pivot.modelField}' req field: '#{@opts.pivot.requestField}'")
+      @trace("req.#{@opts.pivot.requestField} = #{req[@opts.pivot.requestField]}")
+      if @opts.pivot.requestField of req
+        if (not @opts.pivot.requestField of instance) or (not instance[@opts.pivot.requestField])
+          instance[@opts.pivot.requestField] = req[@opts.pivot.requestField].id
     instance.save (err) =>
       return next(err)  if err
       console.log("created #{@modelName} with id:#{instance.id}")
