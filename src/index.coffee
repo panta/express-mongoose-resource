@@ -277,6 +277,7 @@ class ModelController
 
   # POST /NAME
   _action_create: (req, res, next) ->
+    redirect_to = req.redirect_to or req.body.redirect_to or null
     format = req.format or @_default_format
     @traceAction(req, 'create', "#{@url_prefix} format:#{format}")
     # #console.log(req.body)
@@ -296,6 +297,8 @@ class ModelController
       return next(err)  if err
       console.log("created #{@modelName} with id:#{instance.id}")
       if (req.body._format? and req.body._format == 'html') or (format == 'html')
+        if redirect_to
+          return res.redirect redirect_to
         return res.redirect @url_prefix + "/#{instance.id}" + ".html"
       else
         return res.send(@preprocess_instance(instance))
@@ -330,6 +333,7 @@ class ModelController
 
   # PUT /NAME/:NAME
   _action_update: (req, res, next) ->
+    redirect_to = req.redirect_to or req.body.redirect_to or null
     id = @getId(req)
     @traceAction(req, 'update', "#{@url_prefix}:#{@resource.id}")
     @get id, (err, instance) =>
@@ -343,12 +347,15 @@ class ModelController
         return next(err)  if err
         console.log("updated #{@modelName} with id:#{id}")
         if req.body._format? and req.body._format == 'html'
+          if redirect_to
+            return res.redirect redirect_to
           return res.redirect @url_prefix + "/#{instance.id}" + ".html"
         else
           return res.send(@preprocess_instance(instance))
 
   # DELETE /NAME/:NAME
   _action_destroy: (req, res, next) ->
+    redirect_to = req.redirect_to or req.body.redirect_to or null
     id = @getId(req)
     @traceAction(req, 'destroy', "#{@url_prefix}:#{@resource.id}")
     return @get id, (err, instance) =>
@@ -356,6 +363,8 @@ class ModelController
       return instance.remove (err) =>
         return next(err)  if err
         console.log("removed #{@modelName} with id:#{id}")
+        if redirect_to
+          return res.redirect redirect_to
         return res.send('')
 
   # -- express-resource support ---------------------------------------
