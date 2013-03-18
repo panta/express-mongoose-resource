@@ -60,16 +60,16 @@ var r_thread = app.resource({model: Thread});
 r_forum.add(r_thread, {pivotField: 'forum'});
 ```
 
-which will a `Thread` resource nested under `Forum`:
+which will add a `Thread` resource nested under `Forum`:
 
-    GET     /forums/:forum/threads/schema      ->  schema
-    GET     /forums/:forum/threads             ->  index
-    GET     /forums/:forum/threads/new         ->  new
-    POST    /forums/:forum/threads             ->  create
-    GET     /forums/:forum/threads/:forum      ->  show
-    GET     /forums/:forum/threads/:forum/edit ->  edit
-    PUT     /forums/:forum/threads/:forum      ->  update
-    DELETE  /forums/:forum/threads/:forum      ->  destroy
+    GET     /forums/:forum/threads/schema       ->  schema
+    GET     /forums/:forum/threads              ->  index
+    GET     /forums/:forum/threads/new          ->  new
+    POST    /forums/:forum/threads              ->  create
+    GET     /forums/:forum/threads/:thread      ->  show
+    GET     /forums/:forum/threads/:thread/edit ->  edit
+    PUT     /forums/:forum/threads/:thread      ->  update
+    DELETE  /forums/:forum/threads/:thread      ->  destroy
 
 ### Content-Negotiation
 
@@ -106,7 +106,7 @@ Please use the github [repository][] to notify bugs and make pull requests.
 
 ## License
 
-This software is © 2012 Marco Pantaleoni, released under the MIT licence. Use it, fork it.
+This software is © 2012-2013 Marco Pantaleoni, released under the MIT licence. Use it, fork it.
 
 See the LICENSE file for details.
 
