@@ -1,5 +1,7 @@
 # express-mongoose-resource
 
+**Compatibility:** This module was built for Express 2.x and is not currently compatible with Express 3.x.
+
 express-mongoose-resource provides resourceful routing for [mongoose][] models to [expressjs][].
 
 The library uses and extends [express-resource][], remaining fully compatible with it.
