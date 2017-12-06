@@ -116,6 +116,6 @@ See the LICENSE file for details.
 [CoffeeScript]: http://jashkenas.github.com/coffee-script/
 [nodejs]: http://nodejs.org/
 [expressjs]: http://expressjs.com
-[Mocha]: http://visionmedia.github.com/mocha/
+[Mocha]: http://mochajs.org/
 [Jade]: http://jade-lang.com
 [repository]: http://github.com/panta/express-mongoose-resource
